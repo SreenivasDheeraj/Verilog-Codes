@@ -22,10 +22,16 @@ module CLAA(sum, cout, a, b, cin);
     assign p2 = a[2] ^ b[2];
     assign p3 = a[3] ^ b[3];
 
-    assign c1 = g0 | (p0 & cin);
-    assign c2 = g1 | (p1 & c1);
-    assign c3 = g2 | (p2 & c2);
-    assign cout = g3 | (p3 & c3);
+    assign c1 = (a[0] & b[0]) | ((a[0] ^ b[0]) & cin);
+    assign c2 = (a[1] & b[1]) | ((a[1] ^ b[1]) & 
+        ((a[0] & b[0]) | ((a[0] ^ b[0]) & cin)));
+    assign c3 = (a[2] & b[2]) | ((a[2] ^ b[2]) & 
+        ((a[1] & b[1]) | ((a[1] ^ b[1]) & 
+        ((a[0] & b[0]) | ((a[0] ^ b[0]) & cin)))));
+    assign cout = (a[3] & b[3]) | ((a[3] ^ b[3]) & 
+        ((a[2] & b[2]) | ((a[2] ^ b[2]) & 
+        ((a[1] & b[1]) | ((a[1] ^ b[1]) & 
+        ((a[0] & b[0]) | ((a[0] ^ b[0]) & cin)))))));
 
     // Sum is Si = Pi ^ Ci
     assign sum[0] = cin ^ p0;
